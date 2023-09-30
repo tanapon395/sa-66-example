@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Space,
   Button,
@@ -9,15 +9,21 @@ import {
   Input,
   Card,
   message,
+  Upload,
+  Select,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { UsersInterface } from "../../../interfaces/IUser";
-import { CreateUser } from "../../../services/https";
+import { GendersInterface } from "../../../interfaces/IGender";
+import { CreateUser, GetGenders } from "../../../services/https";
 import { useNavigate } from "react-router-dom";
+
+const { Option } = Select;
 
 function CustomerCreate() {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+  const [genders, setGenders] = useState<GendersInterface[]>([]);
 
   const onFinish = async (values: UsersInterface) => {
     let res = await CreateUser(values);
@@ -30,9 +36,30 @@ function CustomerCreate() {
         navigate("/customer");
       }, 2000);
     } else {
-      console.log(res);
+      messageApi.open({
+        type: "error",
+        content: "บันทึกข้อมูลไม่สำเร็จ",
+      });
     }
   };
+
+  const getGendet = async () => {
+    let res = await GetGenders();
+    if (res) {
+      setGenders(res);
+    }
+  };
+
+  useEffect(() => {
+    getGendet();
+  }, []);
+
+  // const normFile = (e: any) => {
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e?.fileList;
+  // };
 
   return (
     <div>
@@ -76,6 +103,15 @@ function CustomerCreate() {
               </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+              <Form.Item name="GenderID" label="เพศ" rules={[{ required: true,  message: "กรุณาระบุเพศ !", }]}>
+                <Select allowClear>
+                  {genders.map((item) => (
+                    <Option value={item.ID} key={item.Name}>{item.Name}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={12}>
               <Form.Item
                 label="อีเมล"
                 name="Email"
@@ -107,6 +143,21 @@ function CustomerCreate() {
                 <Input />
               </Form.Item>
             </Col>
+            {/* <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+              <Form.Item
+                label="Upload"
+                name="Upload"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+              >
+                <Upload action="/upload.do" listType="picture-card">
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+            </Col> */}
           </Row>
           <Row justify="end">
             <Col style={{ marginTop: "40px" }}>

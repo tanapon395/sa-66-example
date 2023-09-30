@@ -17,6 +17,21 @@ func SetupDatabase() {
 		panic("failed to connect database")
 	}
 	// Migrate the schema
-	database.AutoMigrate(&User{})
+	database.AutoMigrate(
+		&User{},
+		&Gender{},
+	)
+
 	db = database
+
+	// Gender Data
+	male := Gender{
+		Name: "ชาย",
+	}
+	db.Model(&Gender{}).Create(&male)
+
+	female := Gender{
+		Name: "หญิง",
+	}
+	db.Model(&Gender{}).Create(&female)
 }
