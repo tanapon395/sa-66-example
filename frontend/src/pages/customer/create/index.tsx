@@ -12,9 +12,10 @@ import {
   Upload,
   Select,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { UsersInterface } from "../../../interfaces/IUser";
 import { GendersInterface } from "../../../interfaces/IGender";
+import { ImageUpload } from "../../../interfaces/IUpload";
 import { CreateUser, GetGenders } from "../../../services/https";
 import { useNavigate } from "react-router-dom";
 
@@ -24,8 +25,10 @@ function CustomerCreate() {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [genders, setGenders] = useState<GendersInterface[]>([]);
+  const [profile, setProfile] = useState<ImageUpload>()
 
   const onFinish = async (values: UsersInterface) => {
+    values.Profile = profile?.thumbUrl;
     let res = await CreateUser(values);
     if (res.status) {
       messageApi.open({
@@ -54,12 +57,13 @@ function CustomerCreate() {
     getGendet();
   }, []);
 
-  // const normFile = (e: any) => {
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return e?.fileList;
-  // };
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    setProfile(e?.fileList[0])
+    return e?.fileList;
+  };
 
   return (
     <div>
@@ -143,21 +147,22 @@ function CustomerCreate() {
                 <Input />
               </Form.Item>
             </Col>
-            {/* <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Form.Item
-                label="Upload"
-                name="Upload"
+                label="รูปประจำตัว"
+                name="Profile"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
+              
               >
-                <Upload action="/upload.do" listType="picture-card">
+                <Upload maxCount={1} multiple={false} listType="picture-card">
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>อัพโหลด</div>
                   </div>
                 </Upload>
               </Form.Item>
-            </Col> */}
+            </Col>
           </Row>
           <Row justify="end">
             <Col style={{ marginTop: "40px" }}>

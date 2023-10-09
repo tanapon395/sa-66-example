@@ -31,6 +31,7 @@ func CreateUser(c *gin.Context) {
 		LastName:  user.LastName,  // ตั้งค่าฟิลด์ LastName
 		Email:     user.Email,     // ตั้งค่าฟิลด์ Email
 		Phone:     user.Phone,     // ตั้งค่าฟิลด์ Phone
+		Profile:   user.Profile,   // ตั้งค่าฟิลด์ Profile
 	}
 
 	// บันทึก

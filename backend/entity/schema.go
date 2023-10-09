@@ -10,6 +10,7 @@ type User struct {
 	LastName  string
 	Email     string
 	Phone     string
+	Profile   string `gorm:"type:longtext"`
 
 	// GenderID ทำหน้าที่เป็น FK
 	GenderID *uint

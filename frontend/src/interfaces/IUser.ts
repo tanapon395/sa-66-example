@@ -8,4 +8,5 @@ export interface UsersInterface {
   Phone?: string;
   GenderID?: number;
   Gender?: GendersInterface;
+  Profile?: string;
 }
