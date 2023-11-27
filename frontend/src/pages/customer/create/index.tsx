@@ -160,7 +160,7 @@ function CustomerCreate() {
                     <PlusOutlined />
                     <div style={{ marginTop: 8 }}>อัพโหลด</div>
                   </div>
-                </Upload>
+                </Upload> 
               </Form.Item>
             </Col>
           </Row>
