@@ -42,7 +42,7 @@ func TestCreateUser(t *testing.T) {
 		assert.Equal(t, http.StatusCreated, w.Code)
 	})
 
-	t.Run(`create user as field "student_id" is not match pattern`, func(t *testing.T) {
+	t.Run(`create user is error as field "student_id" is not match pattern`, func(t *testing.T) {
 		r := gin.Default()
 		r.POST("/users", controller.CreateUser)
 		user := entity.User{
@@ -65,7 +65,8 @@ func TestCreateUser(t *testing.T) {
 		json.Unmarshal(body, &respJson)
 
 		// สื่งที่คาดหวังจากการทดสอบ
-		assert.Equal(t, (fmt.Sprintf("StudentID: %s does not validate as matches(^[BMD]\\d{7}$)", user.StudentID)), respJson.Error)
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Equal(t, fmt.Sprintf("StudentID: %s does not validate as matches(^[BMD]\\d{7}$)", user.StudentID), respJson.Error)
 
 	})
 

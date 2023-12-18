@@ -24,18 +24,18 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	_, err = govalidator.ValidateStruct(user)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา gender ด้วย id
 	var gender entity.Gender
 	db.First(&gender, user.GenderID)
 	if gender.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "gender not found"})
-		return
-	}
-
-	_, err = govalidator.ValidateStruct(user)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
