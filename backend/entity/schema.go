@@ -9,6 +9,7 @@ type User struct {
 	FirstName string
 	LastName  string
 	Email     string
+	Password  string
 	Phone     string
 	Profile   string `gorm:"type:longtext"`
 
