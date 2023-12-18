@@ -11,6 +11,12 @@ import (
 func ListGenders(c *gin.Context) {
 	var genders []entity.Gender
 
-	entity.DB().Find(&genders)
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	db.Find(&genders)
 	c.JSON(http.StatusOK, genders)
 }

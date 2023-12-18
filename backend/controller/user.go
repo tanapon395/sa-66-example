@@ -18,15 +18,21 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา gender ด้วย id
 	var gender entity.Gender
-	entity.DB().First(&gender, user.GenderID)
+	db.First(&gender, user.GenderID)
 	if gender.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "gender not found"})
 		return
 	}
 
-	_, err := govalidator.ValidateStruct(user)
+	_, err = govalidator.ValidateStruct(user)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -47,19 +53,25 @@ func CreateUser(c *gin.Context) {
 	}
 
 	// บันทึก
-	if err := entity.DB().Create(&u).Error; err != nil {
+	if err := db.Create(&u).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Created success", "data": u})
+	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": u})
 }
 
 // GET /user/:id
 func GetUser(c *gin.Context) {
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	var user entity.User
 	id := c.Param("id")
-	entity.DB().Preload("Gender").First(&user, id)
+	db.Preload("Gender").First(&user, id)
 	if user.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
@@ -69,19 +81,33 @@ func GetUser(c *gin.Context) {
 
 // GET /users
 func ListUsers(c *gin.Context) {
+
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	var users []entity.User
-	entity.DB().Preload("Gender").Find(&users)
+	db.Preload("Gender").Find(&users)
 	c.JSON(http.StatusOK, users)
 }
 
 // DELETE /users/:id
 func DeleteUser(c *gin.Context) {
+
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	id := c.Param("id")
 
 	var user entity.User
-	entity.DB().First(&user, id)
+	db.First(&user, id)
 	if user.ID != 0 {
-		entity.DB().Delete(&user)
+		db.Delete(&user)
 		c.JSON(http.StatusOK, gin.H{"message": "Deleted success"})
 	} else {
 		c.JSON(http.StatusNotFound, gin.H{"error": "id not found"})
@@ -94,17 +120,23 @@ func UpdateUser(c *gin.Context) {
 	var user entity.User
 	var result entity.User
 
+	db, err := entity.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", user.ID).First(&result); tx.RowsAffected == 0 {
+	if tx := db.Where("id = ?", user.ID).First(&result); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
 
-	if err := entity.DB().Save(&user).Error; err != nil {
+	if err := db.Save(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
