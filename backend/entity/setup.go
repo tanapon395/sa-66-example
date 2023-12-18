@@ -24,14 +24,8 @@ func SetupDatabase() {
 
 	db = database
 
-	// Gender Data
-	male := Gender{
-		Name: "ชาย",
-	}
-	db.Model(&Gender{}).Create(&male)
+	// SetUp Gender
+	db.Where(Gender{Name: "ชาย"}).FirstOrCreate(&Gender{Name: "ชาย"})
+	db.Where(Gender{Name: "หญิง"}).FirstOrCreate(&Gender{Name: "หญิง"})
 
-	female := Gender{
-		Name: "หญิง",
-	}
-	db.Model(&Gender{}).Create(&female)
 }

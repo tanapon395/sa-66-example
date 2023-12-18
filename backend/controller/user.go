@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/tanapon395/sa-66-example/entity"
 )
@@ -24,9 +25,16 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	_, err := govalidator.ValidateStruct(user)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// สร้าง User
 	u := entity.User{
-		Gender:    gender,         // โยงความสัมพันธ์กับ Entity Gender
+		Gender:    &gender,        // โยงความสัมพันธ์กับ Entity Gender
 		FirstName: user.FirstName, // ตั้งค่าฟิลด์ FirstName
 		LastName:  user.LastName,  // ตั้งค่าฟิลด์ LastName
 		Email:     user.Email,     // ตั้งค่าฟิลด์ Email
