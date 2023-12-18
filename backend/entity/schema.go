@@ -12,7 +12,7 @@ type User struct {
 	Email     string `valid:"required~Email is required, email~Email is invalid"`
 	Phone     string `valid:"required~Phone is required, stringlength(10|10)"`
 	Profile   string `gorm:"type:longtext"`
-	LinkIn    string `valid:"required~LinkIn is required, url~Url LinkIn is invalid"`
+	LinkedIn  string `valid:"required~LinkedIn is required, url~Url LinkedIn is invalid"`
 	// GenderID ทำหน้าที่เป็น FK
 	GenderID uint   `valid:"required~Gender is required"`
 	Gender   Gender `gorm:"foreignKey:GenderID"`

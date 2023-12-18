@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tanapon395/sa-66-example/entity"
 	"github.com/tanapon395/sa-66-example/service"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // LoginPayload login body
@@ -37,11 +36,11 @@ func Login(c *gin.Context) {
 	}
 
 	// ตรวจสอบรหัสผ่าน
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
-		return
-	}
+	// err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
+	// 	return
+	// }
 
 	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
 	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน

@@ -6,7 +6,6 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/tanapon395/sa-66-example/entity"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // POST /users
@@ -20,11 +19,11 @@ func CreateUser(c *gin.Context) {
 	}
 
 	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
-		return
-	}
+	// hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+	// 	return
+	// }
 
 	// ค้นหา gender ด้วย id
 	var gender entity.Gender
@@ -49,7 +48,7 @@ func CreateUser(c *gin.Context) {
 		Email:     user.Email,     // ตั้งค่าฟิลด์ Email
 		Phone:     user.Phone,     // ตั้งค่าฟิลด์ Phone
 		Profile:   user.Profile,   // ตั้งค่าฟิลด์ Profile
-		LinkIn:    user.LinkIn,
+		LinkedIn:  user.LinkedIn,
 		GenderID:  user.GenderID,
 		Gender:    gender, // โยงความสัมพันธ์กับ Entity Gender
 	}
@@ -72,14 +71,14 @@ func GetUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
 // GET /users
 func ListUsers(c *gin.Context) {
 	var users []entity.User
 	entity.DB().Preload("Gender").Find(&users)
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, gin.H{"data": users})
 }
 
 // DELETE /users/:id

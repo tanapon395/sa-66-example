@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tanapon395/sa-66-example/controller"
 	"github.com/tanapon395/sa-66-example/entity"
-	"github.com/tanapon395/sa-66-example/middlewares"
 )
 
 func main() {
@@ -15,21 +14,21 @@ func main() {
 	r.POST("/login", controller.Login)
 	router := r.Group("")
 	{
-		router.Use(middlewares.Authorizes())
-		{
-			// User Routes
-			router.GET("/users", controller.ListUsers)
-			router.GET("/user/:id", controller.GetUser)
-			router.POST("/users", controller.CreateUser)
-			router.PATCH("/users", controller.UpdateUser)
-			router.DELETE("/users/:id", controller.DeleteUser)
-			// Gender Routes
-			router.GET("/genders", controller.ListGenders)
-		}
+		// router.Use(middlewares.Authorizes())
+		// {
+		// User Routes
+		router.GET("/users", controller.ListUsers)
+		router.GET("/user/:id", controller.GetUser)
+		router.POST("/users", controller.CreateUser)
+		router.PATCH("/users", controller.UpdateUser)
+		router.DELETE("/users/:id", controller.DeleteUser)
+		// Gender Routes
+		router.GET("/genders", controller.ListGenders)
+		// }
 	}
 
 	// Run the server
-	r.Run("localhost:8000")
+	r.Run()
 }
 
 func CORSMiddleware() gin.HandlerFunc {
