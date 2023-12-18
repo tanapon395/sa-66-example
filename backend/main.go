@@ -29,7 +29,7 @@ func main() {
 	}
 
 	// Run the server
-	r.Run()
+	r.Run("localhost:8000")
 }
 
 func CORSMiddleware() gin.HandlerFunc {

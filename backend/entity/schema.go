@@ -6,20 +6,19 @@ import (
 
 type User struct {
 	gorm.Model
-	FirstName string
-	LastName  string
-	Email     string
-	Password  string
-	Phone     string
+	StudentID string `valid:"required~StudentID is required, matches(^[BMD]\\d{7}$)"`
+	FirstName string `valid:"required~FirstName is required"`
+	LastName  string `valid:"required~LastName is required"`
+	Email     string `valid:"required~Email is required, email~Email is invalid"`
+	Phone     string `valid:"required~Phone is required, stringlength(10|10)"`
 	Profile   string `gorm:"type:longtext"`
-
+	LinkIn    string `valid:"required~LinkIn is required, url~Url LinkIn is invalid"`
 	// GenderID ทำหน้าที่เป็น FK
-	GenderID *uint
-	Gender   Gender `gorm:"references:id"`
+	GenderID uint   `valid:"required~Gender is required"`
+	Gender   Gender `gorm:"foreignKey:GenderID"`
 }
 
 type Gender struct {
 	gorm.Model
 	Name string
-	User []User `gorm:"foreignKey:GenderID"`
 }
