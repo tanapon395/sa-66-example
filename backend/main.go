@@ -19,7 +19,7 @@ func main() {
 	// Gender Routes
 	r.GET("/genders", controller.ListGenders)
 	// Run the server
-	r.Run()
+	r.Run("localhost:8000")
 }
 
 func CORSMiddleware() gin.HandlerFunc {

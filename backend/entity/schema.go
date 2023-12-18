@@ -14,8 +14,8 @@ type User struct {
 	Profile   string `gorm:"type:longtext"`
 	LinkIn    string `valid:"required~LinkIn is required, url~Url LinkIn is invalid"`
 	// GenderID ทำหน้าที่เป็น FK
-	GenderID uint    `valid:"required~Gender is required"`
-	Gender   *Gender `gorm:"foreignKey:GenderID"`
+	GenderID uint   `valid:"required~Gender is required"`
+	Gender   Gender `gorm:"foreignKey:GenderID"`
 }
 
 type Gender struct {
