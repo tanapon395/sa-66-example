@@ -27,7 +27,7 @@ func TestStudentID(t *testing.T) {
 
 		ok, err := govalidator.ValidateStruct(user)
 
-		g.Expect(ok).NotTo(BeNil())
+		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
 		g.Expect(err.Error()).To(Equal("StudentID is required"))
@@ -47,7 +47,7 @@ func TestStudentID(t *testing.T) {
 
 		ok, err := govalidator.ValidateStruct(user)
 
-		g.Expect(ok).NotTo(BeNil())
+		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
 		g.Expect(err.Error()).To(Equal(fmt.Sprintf("StudentID: %s does not validate as matches(^[BMD]\\d{7}$)", user.StudentID)))
@@ -90,7 +90,7 @@ func TestPhoneNumber(t *testing.T) {
 
 		ok, err := govalidator.ValidateStruct(user)
 
-		g.Expect(ok).NotTo(BeNil())
+		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
 		g.Expect(err.Error()).To(Equal("Phone is required"))
@@ -111,7 +111,7 @@ func TestPhoneNumber(t *testing.T) {
 
 		ok, err := govalidator.ValidateStruct(user)
 
-		g.Expect(ok).NotTo(BeNil())
+		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 		g.Expect(err.Error()).To(Equal(fmt.Sprintf("Phone: %s does not validate as stringlength(10|10)", user.Phone)))
 
