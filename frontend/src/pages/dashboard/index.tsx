@@ -27,7 +27,7 @@ const columns: ColumnsType<DataType> = [
     key: "firstname",
   },
   {
-    title: "นามสกุุล",
+    title: "นามสกุล",
     dataIndex: "LastName",
     key: "lastname",
   },

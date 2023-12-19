@@ -52,8 +52,8 @@ async function DeleteUserByID(id: Number | undefined) {
   let res = await fetch(`${apiUrl}/users/${id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      if (res.data) {
-        return res.data;
+      if (res.message) {
+        return res.message;
       } else {
         return false;
       }
