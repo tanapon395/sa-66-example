@@ -15,7 +15,12 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { UsersInterface } from "../../../interfaces/IUser";
 import { GendersInterface } from "../../../interfaces/IGender";
-import { CreateUser, GetGenders, GetUserById, UpdateUser } from "../../../services/https";
+import {
+  CreateUser,
+  GetGenders,
+  GetUserById,
+  UpdateUser,
+} from "../../../services/https";
 import { useNavigate, useParams } from "react-router-dom";
 
 const { Option } = Select;
@@ -46,7 +51,7 @@ function CustomerEdit() {
     } else {
       messageApi.open({
         type: "error",
-        content: "แก้ไขข้อมูลไม่สำเร็จ",
+        content: res.message,
       });
     }
   };
@@ -63,13 +68,15 @@ function CustomerEdit() {
     if (res) {
       setUser(res);
       // set form ข้อมูลเริ่มของผู่้ใช้ที่เราแก้ไข
-      form.setFieldsValue({ 
-        FirstName: res.FirstName ,
-        LastName : res.LastName ,
+      form.setFieldsValue({
+        FirstName: res.FirstName,
+        LastName: res.LastName,
+        StudentID: res.StudentID,
         GenderID: res.GenderID,
         Email: res.Email,
         Phone: res.Phone,
-    });
+        LinkedIn: res.LinkedIn
+      });
     }
   };
 
@@ -114,6 +121,20 @@ function CustomerEdit() {
                   {
                     required: true,
                     message: "กรุณากรอกนามสกุล !",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+              <Form.Item
+                label="รหัสนักศึกษา"
+                name="StudentID"
+                rules={[
+                  {
+                    // required: true,
+                    message: "กรุณากรอกรหัสนักศึกษา !",
                   },
                 ]}
               >
@@ -168,6 +189,20 @@ function CustomerEdit() {
               </Form.Item>
             </Col>
           </Row>
+          <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+            <Form.Item
+              label="LinkedIn"
+              name="LinkedIn"
+              rules={[
+                {
+                  // required: true,
+                  message: "กรุณากรอก LinkedIn Profile URL !",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
           <Row justify="end">
             <Col style={{ marginTop: "40px" }}>
               <Form.Item>

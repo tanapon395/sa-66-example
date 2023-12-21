@@ -13,8 +13,9 @@ async function GetUsers() {
   let res = await fetch(`${apiUrl}/users`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      if (res.data) {
-        return res.data;
+      console.log(res)
+      if (res) {
+        return res;
       } else {
         return false;
       }

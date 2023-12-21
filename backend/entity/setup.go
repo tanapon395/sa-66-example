@@ -11,29 +11,22 @@ func DB() *gorm.DB {
 	return db
 }
 
-func SetupDatabase() {
-	database, err := gorm.Open(sqlite.Open("sa-66.db"), &gorm.Config{})
+func ConnectDB() (*gorm.DB, error) {
+	var err error
+	var database *gorm.DB
+	database, err = gorm.Open(sqlite.Open("sa-66.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	// Migrate the schema
+
 	database.AutoMigrate(
 		&User{},
 		&Gender{},
 	)
 
-	db = database
-
 	// SetUp Gender
-	// Gender Data
-	male := Gender{
-		Name: "ชาย",
-	}
-	db.Model(&Gender{}).Create(&male)
+	database.Where(Gender{Name: "ชาย"}).FirstOrCreate(&Gender{Name: "ชาย"})
+	database.Where(Gender{Name: "หญิง"}).FirstOrCreate(&Gender{Name: "หญิง"})
 
-	female := Gender{
-		Name: "หญิง",
-	}
-	db.Model(&Gender{}).Create(&female)
-
+	return database, nil
 }

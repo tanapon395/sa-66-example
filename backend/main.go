@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	entity.SetupDatabase()
+	entity.ConnectDB()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 	// Auth Routes
