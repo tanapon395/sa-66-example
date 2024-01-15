@@ -42,8 +42,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          working-directory: ./backend
-          # context: .
+          context: ./backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/se-66-backend:latest
     
@@ -65,7 +64,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          working-directory: ./frontend
-          # context: .
+          context: ./frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/se-66-web:latest
