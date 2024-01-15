@@ -42,7 +42,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          working-directory: ./backend
+          # context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/se-66-backend:latest
     
@@ -61,12 +62,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: CD Frontend
-        run: |
-          cd frontend
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          working-directory: ./frontend
+          # context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/se-66-web:latest
