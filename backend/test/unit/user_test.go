@@ -129,7 +129,7 @@ func TestValid(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0807999999",
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 
