@@ -117,3 +117,26 @@ func TestPhoneNumber(t *testing.T) {
 
 	})
 }
+
+func TestValid(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run(`user is valid`, func(t *testing.T) {
+		user := entity.User{
+			StudentID: "B5000000",
+			FirstName: "Unit",
+			LastName:  "test",
+			Email:     "test@gmail.com",
+			Phone:     "0807999999",
+			Profile:   "",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
+			GenderID:  1,
+		}
+
+		ok, err := govalidator.ValidateStruct(user)
+
+		g.Expect(ok).To(BeTrue())
+		g.Expect(err).To(BeNil())
+
+	})
+}
