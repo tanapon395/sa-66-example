@@ -1,6 +1,6 @@
 import { UsersInterface } from "../../interfaces/IUser";
 
-const apiUrl = "http://localhost:8080";
+const apiUrl = "https://api.megroup.website";
 
 async function GetUsers() {
   const requestOptions = {
@@ -13,8 +13,9 @@ async function GetUsers() {
   let res = await fetch(`${apiUrl}/users`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      if (res.data) {
-        return res.data;
+      console.log(res)
+      if (res) {
+        return res;
       } else {
         return false;
       }
@@ -52,8 +53,8 @@ async function DeleteUserByID(id: Number | undefined) {
   let res = await fetch(`${apiUrl}/users/${id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      if (res.data) {
-        return res.data;
+      if (res.message) {
+        return res.message;
       } else {
         return false;
       }

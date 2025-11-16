@@ -31,13 +31,15 @@ func TestCreateUser(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0800000000",
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 		jsonValue, _ := json.Marshal(user)
 		reqFound, _ := http.NewRequest("POST", "/users", bytes.NewBuffer(jsonValue))
 		w := httptest.NewRecorder()
 		r.ServeHTTP(w, reqFound)
+
+		fmt.Println(w.Body)
 
 		assert.Equal(t, http.StatusCreated, w.Code)
 	})
@@ -52,7 +54,7 @@ func TestCreateUser(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0800000000",
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 		jsonValue, _ := json.Marshal(user)

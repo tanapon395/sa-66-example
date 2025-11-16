@@ -1,17 +1,15 @@
 package entity
 
 import (
-	"log"
-
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 var db *gorm.DB
 
-// func DB() *gorm.DB {
-// 	return db
-// }
+func DB() *gorm.DB {
+	return db
+}
 
 func ConnectDB() (*gorm.DB, error) {
 	var err error
@@ -20,29 +18,15 @@ func ConnectDB() (*gorm.DB, error) {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	return database, nil
-}
 
-func SetupDatabase() {
-	db, err := ConnectDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// database, err := gorm.Open(sqlite.Open("sa-66.db"), &gorm.Config{})
-	// if err != nil {
-	// 	panic("failed to connect database")
-	// }
-	// Migrate the schema
-	db.AutoMigrate(
+	database.AutoMigrate(
 		&User{},
 		&Gender{},
 	)
 
-	// db = database
-
 	// SetUp Gender
-	db.Where(Gender{Name: "ชาย"}).FirstOrCreate(&Gender{Name: "ชาย"})
-	db.Where(Gender{Name: "หญิง"}).FirstOrCreate(&Gender{Name: "หญิง"})
+	database.Where(Gender{Name: "ชาย"}).FirstOrCreate(&Gender{Name: "ชาย"})
+	database.Where(Gender{Name: "หญิง"}).FirstOrCreate(&Gender{Name: "หญิง"})
 
+	return database, nil
 }

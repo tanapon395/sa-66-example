@@ -17,6 +17,9 @@ func ListGenders(c *gin.Context) {
 		return
 	}
 
-	db.Find(&genders)
-	c.JSON(http.StatusOK, genders)
+	if err := db.Raw("SELECT * FROM genders").Scan(&genders).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": genders})
 }

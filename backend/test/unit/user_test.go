@@ -21,7 +21,7 @@ func TestStudentID(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0800000000",
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 
@@ -41,7 +41,7 @@ func TestStudentID(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0800000000",
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 
@@ -61,7 +61,7 @@ func TestStudentID(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "0800000000",
 			Profile:   "", // ผิดตรงนี้
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 
@@ -84,7 +84,7 @@ func TestPhoneNumber(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "", // ผิดตรงนี้
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 
@@ -105,7 +105,7 @@ func TestPhoneNumber(t *testing.T) {
 			Email:     "test@gmail.com",
 			Phone:     "080800000000", // ผิดตรงนี้ มี 11 ตัว
 			Profile:   "",
-			LinkIn:    "https://www.linkedin.com/company/ilink/",
+			LinkedIn:  "https://www.linkedin.com/company/ilink/",
 			GenderID:  1,
 		}
 

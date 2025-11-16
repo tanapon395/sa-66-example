@@ -39,6 +39,13 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
+	// hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+	// 	return
+	// }
+
 	// สร้าง User
 	u := entity.User{
 		StudentID: user.StudentID,
@@ -47,7 +54,7 @@ func CreateUser(c *gin.Context) {
 		Email:     user.Email,     // ตั้งค่าฟิลด์ Email
 		Phone:     user.Phone,     // ตั้งค่าฟิลด์ Phone
 		Profile:   user.Profile,   // ตั้งค่าฟิลด์ Profile
-		LinkIn:    user.LinkIn,
+		LinkedIn:  user.LinkedIn,
 		GenderID:  user.GenderID,
 		Gender:    gender, // โยงความสัมพันธ์กับ Entity Gender
 	}
@@ -76,7 +83,7 @@ func GetUser(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
 // GET /users
@@ -130,6 +137,14 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	_, err = govalidator.ValidateStruct(user)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา user ด้วย id
 	if tx := db.Where("id = ?", user.ID).First(&result); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
